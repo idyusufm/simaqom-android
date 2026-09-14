@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SIMAQOM</string>
+    <string name="app_description">Aplikasi untuk pemuda dan pengurus makam</string>
+    <string name="app_version_format">Version %1$s</string>
+    <string name="offline_message">Unable to connect to SIMAQOM. Please check your internet connection and tap Retry.</string>
+    <string name="exit_dialog_title">Keluar Aplikasi</string>
+    <string name="exit_dialog_message">Apakah Anda yakin ingin keluar dari SIMAQOM?</string>
+    <string name="exit_dialog_positive">Keluar</string>
+    <string name="exit_dialog_negative">Batal</string>
+</resources>

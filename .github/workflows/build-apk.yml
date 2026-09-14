@@ -1,0 +1,105 @@
+name: Build and Release SIMAQOM APK
+
+on:
+  push:
+    branches: [ "main", "master" ]
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: 'Version Name (e.g. 1.1)'
+        required: false
+        default: '1.1'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build & Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Determine Version
+        id: get_version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.version_name }}" ]; then
+            VERSION="${{ github.event.inputs.version_name }}"
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            REF_TAG="${{ github.ref_name }}"
+            VERSION="${REF_TAG#v}"
+          else
+            VERSION="1.1"
+          fi
+          echo "VERSION_NAME=$VERSION" >> $GITHUB_ENV
+          echo "Determined Version: $VERSION"
+
+      - name: Decode Release Keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "Decoding release keystore from secrets..."
+            echo "$KEYSTORE_BASE64" | base64 -d > simaqom-release-key.jks
+          else
+            echo "Generating fallback keystore for build..."
+            keytool -genkeypair -v \
+              -keystore simaqom-release-key.jks \
+              -alias simaqom \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -storepass android123 \
+              -keypass android123 \
+              -dname "CN=SIMAQOM, OU=Mobile, O=SIMAQOM, L=City, ST=State, C=US"
+          fi
+
+      - name: Make Gradlew Executable
+        run: chmod +x gradlew
+
+      - name: Build Release APK
+        env:
+          STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          KEY_PASS=${STORE_PASSWORD:-android123}
+          ALIAS=${KEY_ALIAS:-simaqom}
+          ./gradlew assembleRelease \
+            -PVERSION_NAME="${{ env.VERSION_NAME }}" \
+            -PMYAPP_RELEASE_STORE_PASSWORD="$KEY_PASS" \
+            -PMYAPP_RELEASE_KEY_ALIAS="$ALIAS" \
+            -PMYAPP_RELEASE_KEY_PASSWORD="$KEY_PASS"
+
+      - name: Copy & Prepare Final APK Output
+        run: |
+          mkdir -p release-output
+          cp app/build/outputs/apk/release/simaqom-${{ env.VERSION_NAME }}.apk release-output/simaqom-${{ env.VERSION_NAME }}.apk || cp app/build/outputs/apk/release/*.apk release-output/simaqom-${{ env.VERSION_NAME }}.apk
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: simaqom-${{ env.VERSION_NAME }}.apk
+          path: release-output/simaqom-${{ env.VERSION_NAME }}.apk
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-output/simaqom-${{ env.VERSION_NAME }}.apk
+          name: SIMAQOM v${{ env.VERSION_NAME }}
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
