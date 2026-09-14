@@ -151,8 +151,8 @@ class MainActivity : AppCompatActivity() {
         settings.databaseEnabled = true
         settings.allowFileAccess = true
         settings.allowContentAccess = true
-        settings.useWideViewPort = true
-        settings.loadWithOverviewMode = true
+        settings.useWideViewPort = false
+        settings.loadWithOverviewMode = false
         settings.setSupportZoom(false)
         settings.builtInZoomControls = false
         settings.displayZoomControls = false
@@ -190,6 +190,23 @@ class MainActivity : AppCompatActivity() {
                 progressBar.visibility = View.GONE
                 swipeRefreshLayout.isRefreshing = false
                 CookieManager.getInstance().flush()
+
+                // Inject JS to disable pinch zoom, gesture zoom, and user scaling
+                val disableZoomJs = """
+                    (function() {
+                        var meta = document.querySelector('meta[name="viewport"]');
+                        if (!meta) {
+                            meta = document.createElement('meta');
+                            meta.name = 'viewport';
+                            document.getElementsByTagName('head')[0].appendChild(meta);
+                        }
+                        meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no';
+                        document.addEventListener('gesturestart', function(e) {
+                            e.preventDefault();
+                        });
+                    })();
+                """.trimIndent()
+                view?.evaluateJavascript(disableZoomJs, null)
             }
 
             override fun onReceivedError(
@@ -250,6 +267,9 @@ class MainActivity : AppCompatActivity() {
                     settings.databaseEnabled = true
                     settings.allowFileAccess = true
                     settings.allowContentAccess = true
+                    settings.setSupportZoom(false)
+                    settings.builtInZoomControls = false
+                    settings.displayZoomControls = false
                     settings.javaScriptCanOpenWindowsAutomatically = true
                     settings.setSupportMultipleWindows(true)
                     settings.userAgentString = webView.settings.userAgentString
