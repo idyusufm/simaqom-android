@@ -224,7 +224,7 @@ class MainActivity : AppCompatActivity() {
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 val url = request?.url?.toString() ?: return false
                 
-                // Allow tel, mailto, whatsapp, sms to open in external handler
+                            // Allow tel, mailto, whatsapp, sms to open in external handler
                 if (url.startsWith("tel:") || url.startsWith("mailto:") || 
                     url.startsWith("whatsapp:") || url.startsWith("sms:")) {
                     try {
@@ -232,6 +232,19 @@ class MainActivity : AppCompatActivity() {
                         startActivity(intent)
                     } catch (_: ActivityNotFoundException) {
                         Toast.makeText(this@MainActivity, "No application found to handle this action", Toast.LENGTH_SHORT).show()
+                    }
+                    return true
+                }
+
+                // Any other non-http(s) scheme (e.g. Telegram's tg:, or
+                // market:, intent:, etc.) can't be loaded inside the
+                // WebView itself — hand it to the system instead of
+                // letting the WebView show an error page for it.
+                if (request.url.scheme != "http" && request.url.scheme != "https") {
+                    try {
+                        startActivity(Intent(Intent.ACTION_VIEW, request.url))
+                    } catch (_: ActivityNotFoundException) {
+                        Toast.makeText(this@MainActivity, "No app found to open this link", Toast.LENGTH_SHORT).show()
                     }
                     return true
                 }
