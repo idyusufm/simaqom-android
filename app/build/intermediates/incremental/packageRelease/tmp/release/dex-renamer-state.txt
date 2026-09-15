@@ -1,4 +1,4 @@
-#Tue Sep 15 11:09:42 WIB 2026
+#Tue Sep 15 11:20:12 WIB 2026
 base.0=D\:\\Applications\\simaqom-android-project\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

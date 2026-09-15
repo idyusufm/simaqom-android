@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       version_name:
-        description: 'Version Name (e.g. 1.1)'
+        description: 'Version Name (e.g. 1.1.1)'
         required: false
-        default: '1.1'
+        default: '1.1.1'
 
 permissions:
   contents: write
@@ -40,7 +40,7 @@ jobs:
             REF_TAG="${{ github.ref_name }}"
             VERSION="${REF_TAG#v}"
           else
-            VERSION="1.1"
+            VERSION="1.1.1"
           fi
           echo "VERSION_NAME=$VERSION" >> $GITHUB_ENV
           echo "Determined Version: $VERSION"
