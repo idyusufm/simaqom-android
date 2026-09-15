@@ -223,20 +223,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 val url = request?.url?.toString() ?: return false
-                
-                // Allow tel, mailto, whatsapp, sms to open in external handler
-                if (url.startsWith("tel:") || url.startsWith("mailto:") || 
-                    url.startsWith("whatsapp:") || url.startsWith("sms:")) {
-                    try {
-                        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-                        startActivity(intent)
-                    } catch (_: ActivityNotFoundException) {
-                        Toast.makeText(this@MainActivity, "No application found to handle this action", Toast.LENGTH_SHORT).show()
-                    }
-                    return true
-                }
-
-                return false
+                return handleExternalUri(url)
             }
         }
 
@@ -280,16 +267,7 @@ class MainActivity : AppCompatActivity() {
                     webViewClient = object : WebViewClient() {
                         override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                             val url = request?.url?.toString() ?: return false
-                            if (url.startsWith("tel:") || url.startsWith("mailto:") || 
-                                url.startsWith("whatsapp:") || url.startsWith("sms:")) {
-                                try {
-                                    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-                                    startActivity(intent)
-                                } catch (_: ActivityNotFoundException) {
-                                }
-                                return true
-                            }
-                            return false
+                            return handleExternalUri(url)
                         }
 
                         override fun onPageFinished(view: WebView?, url: String?) {
@@ -349,6 +327,48 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun handleExternalUri(url: String): Boolean {
+        // Handle non-http/https custom schemes (e.g. tg:, whatsapp:, intent:, tel:, mailto:, sms:, instagram:, etc.)
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            try {
+                val intent = if (url.startsWith("intent://")) {
+                    Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
+                } else {
+                    Intent(Intent.ACTION_VIEW, url.toUri())
+                }
+                startActivity(intent)
+            } catch (_: Exception) {
+                // Fallback for tg: (Telegram) scheme if app is not installed
+                if (url.startsWith("tg:")) {
+                    val uri = url.toUri()
+                    val domain = uri.getQueryParameter("domain")
+                    val fallbackUrl = if (!domain.isNullOrEmpty()) "https://t.me/$domain" else "https://t.me"
+                    try {
+                        startActivity(Intent(Intent.ACTION_VIEW, fallbackUrl.toUri()))
+                    } catch (_: Exception) {
+                        Toast.makeText(this, "Telegram application is not installed", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this, "No application found to handle this link", Toast.LENGTH_SHORT).show()
+                }
+            }
+            return true
+        }
+
+        // Handle t.me or telegram.me web links by opening in external Telegram app if available
+        if (url.contains("t.me/") || url.contains("telegram.me/")) {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+                startActivity(intent)
+                return true
+            } catch (_: ActivityNotFoundException) {
+                return false
+            }
+        }
+
+        return false
     }
 
     private fun dismissPopupDialog() {
