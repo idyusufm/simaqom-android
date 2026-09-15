@@ -122,9 +122,7 @@ class MainActivity : AppCompatActivity() {
         if (isNetworkAvailable()) {
             webView.loadUrl("https://idyusufm.github.io/simaqom")
             // Ensure splash stays visible for at least 1.5 seconds for branding display
-            splashHandler.postDelayed({
-                hideSplashView()
-            }, 1500)
+            splashHandler.postDelayed({ hideSplashView() }, 1500L)
         } else {
             hideSplashView()
             showOfflineView()
@@ -215,7 +213,7 @@ class MainActivity : AppCompatActivity() {
                 error: WebResourceError?,
             ) {
                 super.onReceivedError(view, request, error)
-                if (request?.isForMainFrame == true && !isNetworkAvailable()) {
+                if ((request?.isForMainFrame == true) && !isNetworkAvailable()) {
                     hideSplashView()
                     showOfflineView()
                 }
@@ -286,10 +284,10 @@ class MainActivity : AppCompatActivity() {
 
                 popupWebView = newPopupWebView
                 val dialog = Dialog(this@MainActivity, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen).apply {
-                    setContentView(newPopupWebView, ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                    ))
+                    setContentView(
+                        newPopupWebView,
+                        ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT),
+                    )
                     setOnDismissListener {
                         dismissPopupDialog()
                     }
@@ -364,7 +362,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
                 return true
             } catch (_: ActivityNotFoundException) {
-                return false
+                // Ignore and return false
             }
         }
 
