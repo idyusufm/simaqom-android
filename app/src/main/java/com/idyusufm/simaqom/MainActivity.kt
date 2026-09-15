@@ -20,7 +20,6 @@ import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
-import android.webkit.WebStorage
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
@@ -386,11 +385,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun clearAppCache() {
         try {
+            // Clear temporary HTTP resource cache (images, CSS, JS) without deleting login cookies or localStorage
             webView.clearCache(true)
             webView.clearHistory()
             webView.clearFormData()
-            WebStorage.getInstance().deleteAllData()
-            cacheDir.deleteRecursively()
+
+            // Flush login cookies to disk so the user's account session stays logged in
+            CookieManager.getInstance().flush()
         } catch (_: Exception) {
         }
     }
