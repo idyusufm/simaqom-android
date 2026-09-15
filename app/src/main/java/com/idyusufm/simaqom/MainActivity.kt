@@ -2,6 +2,7 @@ package com.idyusufm.simaqom
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.app.DownloadManager
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
@@ -33,6 +34,10 @@ import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.json.JSONObject
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
 
@@ -113,14 +118,16 @@ class MainActivity : AppCompatActivity() {
                 layoutOfflineError.visibility = View.GONE
                 webView.visibility = View.VISIBLE
                 webView.reload()
+                checkForUpdates()
             } else {
                 Toast.makeText(this, "Still no internet connection", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Load entry URL
+        // Load entry URL & check for updates from GitHub Releases
         if (isNetworkAvailable()) {
             webView.loadUrl("https://idyusufm.github.io/simaqom")
+            checkForUpdates()
             // Ensure splash stays visible for at least 1.5 seconds for branding display
             splashHandler.postDelayed({ hideSplashView() }, 1500L)
         } else {
@@ -138,6 +145,105 @@ class MainActivity : AppCompatActivity() {
                 .withEndAction {
                     layoutSplash.visibility = View.GONE
                 }
+        }
+    }
+
+    private fun checkForUpdates() {
+        Executors.newSingleThreadExecutor().execute {
+            val repoList = listOf("idyusufm/simaqom-android", "idyusufm/simaqom")
+            for (repo in repoList) {
+                try {
+                    val url = URL("https://api.github.com/repos/$repo/releases/latest")
+                    val connection = url.openConnection() as HttpURLConnection
+                    connection.requestMethod = "GET"
+                    connection.setRequestProperty("User-Agent", "SIMAQOM-Android-App")
+                    connection.connectTimeout = 8000
+                    connection.readTimeout = 8000
+
+                    if (connection.responseCode == 200) {
+                        val responseText = connection.inputStream.bufferedReader().use { it.readText() }
+                        val json = JSONObject(responseText)
+                        val tagName = json.optString("tag_name", "").removePrefix("v").trim()
+                        val currentVersion = packageManager.getPackageInfo(packageName, 0).versionName ?: "1.0.0"
+
+                        if (isNewerVersion(currentVersion, tagName)) {
+                            val assets = json.optJSONArray("assets")
+                            var downloadUrl: String? = null
+                            if (assets != null) {
+                                for (i in 0 until assets.length()) {
+                                    val asset = assets.getJSONObject(i)
+                                    val name = asset.optString("name", "")
+                                    if (name.endsWith(".apk", ignoreCase = true)) {
+                                        downloadUrl = asset.optString("browser_download_url", "")
+                                        break
+                                    }
+                                }
+                            }
+
+                            if (!downloadUrl.isNullOrEmpty()) {
+                                val finalDownloadUrl = downloadUrl
+                                runOnUiThread {
+                                    showUpdateAvailableDialog(tagName, finalDownloadUrl)
+                                }
+                                break
+                            }
+                        }
+                    }
+                } catch (_: Exception) {
+                }
+            }
+        }
+    }
+
+    private fun isNewerVersion(current: String, latest: String): Boolean {
+        try {
+            val currentParts = current.split(".").map { it.toIntOrNull() ?: 0 }
+            val latestParts = latest.split(".").map { it.toIntOrNull() ?: 0 }
+            val maxLength = maxOf(currentParts.size, latestParts.size)
+
+            for (i in 0 until maxLength) {
+                val c = currentParts.getOrElse(i) { 0 }
+                val l = latestParts.getOrElse(i) { 0 }
+                if (l > c) return true
+                if (l < c) return false
+            }
+        } catch (_: Exception) {
+        }
+        return false
+    }
+
+    private fun showUpdateAvailableDialog(latestVersion: String, downloadUrl: String) {
+        if (isFinishing || isDestroyed) return
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.update_dialog_title, latestVersion))
+            .setMessage(getString(R.string.update_dialog_message, latestVersion))
+            .setPositiveButton(R.string.update_dialog_positive) { _, _ ->
+                downloadAndInstallApk(latestVersion, downloadUrl)
+            }
+            .setNegativeButton(R.string.update_dialog_negative) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun downloadAndInstallApk(version: String, downloadUrl: String) {
+        Toast.makeText(this, getString(R.string.downloading_update, version), Toast.LENGTH_LONG).show()
+        try {
+            val request = DownloadManager.Request(downloadUrl.toUri())
+                .setTitle("SIMAQOM v$version")
+                .setDescription("Mengunduh pembaruan aplikasi SIMAQOM...")
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setMimeType("application/vnd.android.package-archive")
+
+            val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+            downloadManager.enqueue(request)
+        } catch (_: Exception) {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, downloadUrl.toUri())
+                startActivity(intent)
+            } catch (_: Exception) {
+                Toast.makeText(this, "Tidak dapat mengunduh pembaruan", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -402,6 +508,7 @@ class MainActivity : AppCompatActivity() {
         swipeRefreshLayout.setOnRefreshListener {
             if (isNetworkAvailable()) {
                 webView.reload()
+                checkForUpdates()
             } else {
                 swipeRefreshLayout.isRefreshing = false
                 showOfflineView()

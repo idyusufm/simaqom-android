@@ -1,9 +1,20 @@
 -- Merging decision tree log ---
+provider#androidx.core.content.FileProvider
+INJECTED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:29:9-37:20
+	android:grantUriPermissions
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:33:13-47
+	android:authorities
+		INJECTED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:31:13-64
+	android:exported
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:32:13-37
+	android:name
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:30:13-62
 manifest
-ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:2:1-53:12
-INJECTED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:2:1-53:12
-INJECTED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:2:1-53:12
-INJECTED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:2:1-53:12
+ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:2:1-64:12
+INJECTED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:2:1-64:12
+INJECTED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:2:1-64:12
+INJECTED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:2:1-64:12
 MERGED from [androidx.databinding:viewbinding:8.4.2] C:\Users\admin\.gradle\caches\transforms-4\37156f57ab1e5457f63120d2b8704ece\transformed\jetified-viewbinding-8.4.2\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\admin\.gradle\caches\transforms-4\d50b22dccc2cfd1d651f4c5b4f1989bc\transformed\material-1.12.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\admin\.gradle\caches\transforms-4\937adbcd7c7b7e8cdf8f5a8de6dfd49f\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
@@ -85,9 +96,15 @@ uses-permission#android.permission.POST_NOTIFICATIONS
 ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:13:5-77
 	android:name
 		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:13:22-74
+uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
+ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:14:5-119
+	tools:ignore
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:14:81-116
+	android:name
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:14:22-80
 application
-ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:15:5-51:19
-INJECTED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:15:5-51:19
+ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:16:5-62:19
+INJECTED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:16:5-62:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\admin\.gradle\caches\transforms-4\d50b22dccc2cfd1d651f4c5b4f1989bc\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\admin\.gradle\caches\transforms-4\d50b22dccc2cfd1d651f4c5b4f1989bc\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\admin\.gradle\caches\transforms-4\937adbcd7c7b7e8cdf8f5a8de6dfd49f\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -109,71 +126,77 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\ad
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] C:\Users\admin\.gradle\caches\transforms-4\047e5599cc9b040c0cf346a3705d0122\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:22:9-35
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:23:9-35
 	android:label
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:20:9-41
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:21:9-41
 	android:hardwareAccelerated
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:25:9-43
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:26:9-43
 	android:fullBackupContent
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:18:9-54
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:19:9-54
 	android:roundIcon
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:21:9-54
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:22:9-54
 	tools:targetApi
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:26:9-29
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:27:9-29
 	android:icon
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:19:9-43
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:20:9-43
 	android:allowBackup
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:16:9-35
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:17:9-35
 	android:theme
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:23:9-44
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:24:9-44
 	android:networkSecurityConfig
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:24:9-69
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:25:9-69
 	android:dataExtractionRules
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:17:9-65
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:18:9-65
 activity#com.idyusufm.simaqom.MainActivity
-ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:28:9-49:20
+ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:39:9-60:20
 	android:windowSoftInputMode
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:32:13-55
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:43:13-55
 	android:exported
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:30:13-36
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:41:13-36
 	android:configChanges
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:31:13-87
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:42:13-87
 	android:theme
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:33:13-57
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:44:13-57
 	android:name
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:29:13-41
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:40:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:35:13-38:29
+ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:46:13-49:29
 action#android.intent.action.MAIN
-ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:36:17-69
+ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:47:17-69
 	android:name
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:36:25-66
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:47:25-66
 category#android.intent.category.LAUNCHER
-ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:37:17-77
+ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:48:17-77
 	android:name
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:37:27-74
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:48:27-74
 intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:idyusufm.github.io+data:scheme:https
-ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:41:13-48:29
+ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:52:13-59:29
 	android:autoVerify
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:41:28-53
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:52:28-53
 action#android.intent.action.VIEW
-ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:42:17-69
+ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:53:17-69
 	android:name
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:42:25-66
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:53:25-66
 category#android.intent.category.DEFAULT
-ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:43:17-76
+ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:54:17-76
 	android:name
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:43:27-73
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:54:27-73
 category#android.intent.category.BROWSABLE
-ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:44:17-78
+ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:55:17-78
 	android:name
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:44:27-75
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:55:27-75
 data
-ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:45:17-47:57
+ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:56:17-58:57
 	android:host
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:47:21-54
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:58:21-54
 	android:scheme
-		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:46:21-43
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:57:21-43
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:34:13-36:54
+	android:resource
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:36:17-51
+	android:name
+		ADDED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml:35:17-67
 uses-sdk
 INJECTED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from D:\Applications\simaqom-android-project\app\src\main\AndroidManifest.xml

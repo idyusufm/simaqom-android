@@ -8,4 +8,9 @@
     <string name="exit_dialog_message">Apakah Anda yakin ingin keluar dari SIMAQOM?</string>
     <string name="exit_dialog_positive">Keluar</string>
     <string name="exit_dialog_negative">Batal</string>
+    <string name="update_dialog_title">Pembaruan Tersedia (v%1$s)</string>
+    <string name="update_dialog_message">Versi baru SIMAQOM (v%1$s) telah tersedia. Apakah Anda ingin mengunduh dan memperbarui sekarang?</string>
+    <string name="update_dialog_positive">Perbarui</string>
+    <string name="update_dialog_negative">Nanti</string>
+    <string name="downloading_update">Mengunduh pembaruan SIMAQOM v%1$s&#8230;</string>
 </resources>
