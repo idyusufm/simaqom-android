@@ -20,6 +20,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
+import android.webkit.WebStorage
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
@@ -383,6 +384,17 @@ class MainActivity : AppCompatActivity() {
         popupDialog = null
     }
 
+    private fun clearAppCache() {
+        try {
+            webView.clearCache(true)
+            webView.clearHistory()
+            webView.clearFormData()
+            WebStorage.getInstance().deleteAllData()
+            cacheDir.deleteRecursively()
+        } catch (_: Exception) {
+        }
+    }
+
     private fun setupSwipeRefresh() {
         swipeRefreshLayout.isEnabled = true
         swipeRefreshLayout.setColorSchemeColors(getColor(R.color.primary))
@@ -420,6 +432,7 @@ class MainActivity : AppCompatActivity() {
             .setTitle(R.string.exit_dialog_title)
             .setMessage(R.string.exit_dialog_message)
             .setPositiveButton(R.string.exit_dialog_positive) { _, _ ->
+                clearAppCache()
                 finish()
             }
             .setNegativeButton(R.string.exit_dialog_negative) { dialog, _ ->
@@ -455,6 +468,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         splashHandler.removeCallbacksAndMessages(null)
         dismissPopupDialog()
+        clearAppCache()
         webView.destroy()
         super.onDestroy()
     }
