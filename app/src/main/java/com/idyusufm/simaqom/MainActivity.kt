@@ -136,6 +136,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        val data = intent.data
+        if (data != null && isNetworkAvailable()) {
+            webView.loadUrl(data.toString())
+        }
+    }
+
     private fun hideSplashView() {
         if (!isSplashHidden) {
             isSplashHidden = true

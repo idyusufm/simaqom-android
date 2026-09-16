@@ -54,6 +54,7 @@
             android:name="com.idyusufm.simaqom.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout"
             android:exported="true"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.WebApp.Starting"
             android:windowSoftInputMode="adjustResize" >
             <intent-filter>
