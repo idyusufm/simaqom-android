@@ -51,7 +51,7 @@ class WebAppInterface(private val context: Context) {
 
     @JavascriptInterface
     fun getAppVersion(): String {
-        return "1.1.2"
+        return "1.1.3"
     }
 
     @JavascriptInterface

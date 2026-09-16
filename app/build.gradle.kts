@@ -13,8 +13,8 @@ android {
         applicationId = "com.idyusufm.simaqom"
         minSdk = 24
         targetSdk = 34
-        versionCode = (project.findProperty("VERSION_CODE") as String?)?.toIntOrNull() ?: 4
-        versionName = (project.findProperty("VERSION_NAME") as String?) ?: "1.1.2"
+        versionCode = (project.findProperty("VERSION_CODE") as String?)?.toIntOrNull() ?: 5
+        versionName = (project.findProperty("VERSION_NAME") as String?) ?: "1.1.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
